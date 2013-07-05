@@ -1,6 +1,6 @@
 parameters:
     rohea_file_storage.class: FileStorage\FileStorage
-    rohea_file_storage.adapter.class: FileStorage\Adapter\GridFS
+    rohea_file_storage.adapter.class: 
 
     # Default GridFS config
     rohea_file_storage.mongo.server: "mongodb://localhost:27017"
@@ -8,16 +8,22 @@ parameters:
         connect: true
     rohea_file_storage.mongodb.name: "test_database"
     rohea_file_storage.gridfs.prefix: "fs" #Default
-
-
+    
 services:
     rohea_file_storage:
         class: %rohea_file_storage.class%
-        arguments: [@rohea_file_storage.adapter]
+        arguments: [@rohea_file_storage.adapter.local]
 
-    rohea_file_storage.adapter:
-        class: %rohea_file_storage.adapter.class%
+
+
+    rohea_file_storage.adapter.gridfs:
+        class: FileStorage\Adapter\GridFS
         arguments: [@rohea_file_storage.gridfs]
+        
+    rohea_file_storage.adapter.local:
+        class: FileStorage\Adapter\Local
+        arguments: ["/tmp"]
+
         
     # Default Mongo and gridfs stuff                
     rohea_file_storage.mongo:
@@ -28,4 +34,6 @@ services:
         arguments: [@rohea_file_storage.mongo, %rohea_file_storage.mongodb.name%]
     rohea_file_storage.gridfs:
         class: MongoGridFS
-        arguments: [@rohea_file_storage.mongodb, %rohea_file_storage.gridfs.prefix%]        
+        arguments: [@rohea_file_storage.mongodb, %rohea_file_storage.gridfs.prefix%]
+        
+
