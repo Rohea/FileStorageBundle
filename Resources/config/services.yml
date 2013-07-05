@@ -1,0 +1,7 @@
+parameters:
+#    rohea_file_storage.example.class: Rohea\FileStorageBundle\Example
+
+services:
+#    rohea_file_storage.example:
+#        class: %rohea_file_storage.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]
